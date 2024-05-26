@@ -95,6 +95,17 @@ test.describe('Functional testing', () => {
         expect(await search.get_search_result()).toBe('Search Results: Georgia');
     });
 
+    test('Search page with nothing', async () => {
+        //Search for Georgia
+        await main.search_2('Georgia');
+        const visibilityMap = await search.are_elements_visible(true);
+        // Check if all elements are visible
+        expect(visibilityMap.feeds).toBe(true);
+        expect(visibilityMap.firstPost).toBe(true);
+        // Check if the search result is correct
+        expect(await search.get_search_result()).toBe('Search Results:');
+    });
+
     test('Filter by country', async () => {
         await main.filter_country('Asia', 'Cambodia');
         const visibilityMap = await filterCountry.are_elements_visible(false);
@@ -112,4 +123,17 @@ test.describe('Functional testing', () => {
     //     // Check if the reply was successful
 
     // });
+
+    // test('Reply to post without name', async () => {
+    //     await main.click_on_first_post();
+    //     await post.reply_to_post('', 'johndoe@gmail.com', 'https://johndoe.com', 'This is a test comment', true);
+    //     // Check if the reply was successful
+    // });
+
+    // test('Reply to post without email', async () => {
+    //     await main.click_on_first_post();
+    //     await post.reply_to_post('John Doe', '', 'https://johndoe.com', 'This is a test comment', true);
+    //     // Check if the reply was successful
+    // });
+
 });
